@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>pitan</title>
+<meta name="description" content="会社員のpitanが、仕事のあとにClaudeと作っているゲームとアプリ。">
+<meta property="og:title" content="pitan">
+<meta property="og:description" content="会社員のpitanが、仕事のあとにClaudeと作っているゲームとアプリ。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column like an App Store page, each work set out as a numbered "release" entry with its build number */
+:root{
+  --bg:#edf0e8;        /* pale celadon, the inside of a century egg's white */
+  --panel:#f8f9f4;
+  --ink:#231a12;       /* umber */
+  --muted:#6a5f52;
+  --amber:#a8561a;     /* the amber shell */
+  --jade:#2f6347;      /* the jade yolk */
+  --line:#d3d8cb;
+  --chip-ok:#2f6347; --chip-ok-bg:#dbe8dd;
+  --chip-wait:#8a5a0c; --chip-wait-bg:#f3e4c4;
+  --f-display:"Dela Gothic One","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17120d;--panel:#211a13;--ink:#f1ebe1;--muted:#b3a794;--amber:#e08a45;--jade:#7fc49c;--line:#3a3026;
+  --chip-ok:#9fd6b5;--chip-ok-bg:#1f3a2b;--chip-wait:#f0c374;--chip-wait-bg:#3d2c10;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17120d;--panel:#211a13;--ink:#f1ebe1;--muted:#b3a794;--amber:#e08a45;--jade:#7fc49c;--line:#3a3026;
+  --chip-ok:#9fd6b5;--chip-ok-bg:#1f3a2b;--chip-wait:#f0c374;--chip-wait-bg:#3d2c10;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.8 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+img{max-width:100%;display:block}
+a{color:var(--jade)}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-block:28px 0}
+.mark{font:400 22px/1 var(--f-display);letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.mark span{color:var(--amber)}
+header nav{display:flex;gap:18px;font-size:14px}
+header nav a{color:var(--muted);text-decoration:none}
+header nav a:hover{color:var(--ink)}
+
+.hero{padding-block:64px 48px}
+.hero h1{font:400 clamp(30px,6.4vw,52px)/1.28 var(--f-display);margin:0 0 20px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero p{max-width:36em;margin:0;color:var(--muted);font-size:17px}
+.tally{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:32px;font:500 14px/1.4 var(--f-mono);color:var(--muted)}
+.tally b{display:block;font:400 30px/1.1 var(--f-display);color:var(--ink)}
+
+h2.sec{font:500 13px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  border-top:1px solid var(--line);padding-top:18px;margin:0 0 8px}
+
+.work{display:grid;grid-template-columns:96px 1fr;gap:0 22px;padding-block:36px;border-bottom:1px solid var(--line)}
+.work:last-of-type{border-bottom:0}
+.icon{width:96px;height:96px;border-radius:22px;overflow:hidden;box-shadow:0 1px 0 var(--line),0 6px 18px rgba(35,26,18,.14)}
+.icon img{width:100%;height:100%;object-fit:cover}
+.body{min-width:0}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font:400 13px/1.4 var(--f-mono);color:var(--muted)}
+.chip{font:500 12px/1 var(--f-body);padding:5px 9px;border-radius:999px}
+.chip.ok{color:var(--chip-ok);background:var(--chip-ok-bg)}
+.chip.wait{color:var(--chip-wait);background:var(--chip-wait-bg)}
+.work h3{font:400 24px/1.35 var(--f-display);margin:8px 0 4px;text-wrap:balance}
+.work .sub{margin:0 0 12px;font-weight:700}
+.work p{margin:0 0 12px;max-width:34em}
+.work ul{margin:0 0 16px;padding-left:1.2em;max-width:34em}
+.work li{margin:2px 0}
+.shots{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.shots img{width:100%;aspect-ratio:460/998;object-fit:cover;border-radius:14px;border:1px solid var(--line);background:var(--panel)}
+.store{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;
+  padding:10px 16px;border-radius:10px;background:var(--ink);color:var(--bg)}
+.store:hover{background:var(--amber)}
+.store.off{background:transparent;color:var(--muted);border:1px dashed var(--line);font-weight:500}
+
+.how{padding-block:40px}
+.how p{max-width:36em;margin:12px 0 0}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;padding:0;list-style:none}
+.stack li{font:400 13px/1 var(--f-mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+
+.contact{padding-block:40px 56px}
+.contact p{margin:12px 0 0}
+.mail{font:500 16px/1.4 var(--f-mono);user-select:all;color:var(--ink)}
+footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:13px;color:var(--muted)}
+
+@media (max-width:560px){
+  .work{grid-template-columns:64px 1fr;gap:0 14px}
+  .icon{width:64px;height:64px;border-radius:15px}
+  .work h3{font-size:20px}
+  .shots{gap:8px}
+  header nav{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .store{transition:background .15s}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="mark" href="#top" id="top">pita<span>n</span></a>
+    <nav aria-label="ページ内">
+      <a href="#works">作品</a>
+      <a href="#how">作り方</a>
+      <a href="#contact">連絡先</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>平日は会社員。<br>夜は<em>Claude</em>と、<br>ゲームとアプリを作っています。</h1>
+    <p>pitanは、ひとりでやっている小さなアプリ開発の名前です。企画から絵、音、App Storeの審査まで、AIのClaudeと相談しながら進めています。ここに置いてあるのは、実際にストアに出したものだけです。</p>
+    <div class="tally" aria-label="これまでの数">
+      <div><b>3</b>ストアに出したアプリ</div>
+      <div><b>2</b>ゲーム</div>
+      <div><b>iOS</b>App Store</div>
+    </div>
+  </section>
+
+  <section id="works" aria-labelledby="works-h">
+    <h2 class="sec" id="works-h">作品</h2>
+
+    <article class="work" id="sansen">
+      <div class="icon"><img src="img/sansen_icon.jpg" alt="参戦メーカーのアイコン" width="96" height="96"></div>
+      <div class="body">
+        <div class="meta"><span class="chip wait">審査中</span><span>v1.0.0 (build 4)</span><span>写真・エンタメ</span></div>
+        <h3>参戦メーカー</h3>
+        <p class="sub">友達が「参戦!!」する、格ゲーの新キャラ発表風ネタ画像。</p>
+        <p>写真を選んで名前を入れるだけで、光と効果音つきの参戦演出が作れます。飲み会や誕生日、送別会の盛り上げ用に作りました。</p>
+        <ul>
+          <li>普通の写真から人物を自動で切り抜き（iPhoneの中だけで処理）</li>
+          <li>2人そろって「○○＆△△ 参戦!!」</li>
+          <li>画像と音つき動画、横・縦・正方形</li>
+        </ul>
+        <span class="store off">まもなくApp Storeで公開</span>
+      </div>
+      <div class="shots">
+        <img src="img/sansen_01_hero.jpg" alt="参戦メーカーの画面：1人の参戦画像" loading="lazy">
+        <img src="img/sansen_02_duo.jpg" alt="参戦メーカーの画面：2人で参戦" loading="lazy">
+        <img src="img/sansen_04_video.jpg" alt="参戦メーカーの画面：動画の書き出し" loading="lazy">
+      </div>
+    </article>
+
+    <article class="work" id="rensei">
+      <div class="icon"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/78/11/3f/78113f84-9757-063b-3c77-5ee70b9b1034/Placeholder.mill/400x400Icon.ApSiOS01-75.jpg" alt="錬成バトラーのアイコン" width="96" height="96"></div>
+      <div class="body">
+        <div class="meta"><span class="chip ok">配信中</span><span>v1.0.1</span><span>ストラテジー</span><span>無料</span></div>
+        <h3>錬成バトラー｜ガチャTD合体</h3>
+        <p class="sub">引いて、置いて、合体して、守る。</p>
+        <p>ガチャで仲間を集めてレーンに置き、同じランクを3体そろえて合体させながら拠点を守るタワーディフェンスです。</p>
+        <ul>
+          <li>C→B→A→S→SSと進化する合体システム</li>
+          <li>キャラクター23体、うち伝説のSS（神）が3体</li>
+          <li>3ステージ、各36ウェーブ</li>
+        </ul>
+        <a class="store" href="https://apps.apple.com/jp/app/id6776305674" target="_blank" rel="noopener">App Storeで見る</a>
+      </div>
+      <div class="shots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/61/d8/b9/61d8b97e-a3e2-c251-666b-f7f0beea32ae/1_title.png/460x998bb.webp" alt="錬成バトラーのタイトル画面" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/80/68/85/80688520-233b-43ad-3a5d-3c3c07a32ce4/2_gacha_jackpot.png/460x998bb.webp" alt="錬成バトラーのガチャ画面" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/30/0a/65/300a6518-a5d9-a2ec-6994-da4de691683a/5_merge.png/460x998bb.webp" alt="錬成バトラーの合体画面" loading="lazy">
+      </div>
+    </article>
+
+    <article class="work" id="starblaster">
+      <div class="icon"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/e2/61/46/e2614659-2f70-bde1-07b5-c2e08cb6f1f0/Placeholder.mill/400x400Icon.ApSiOS01-75.jpg" alt="Star Blaster Infinityのアイコン" width="96" height="96"></div>
+      <div class="body">
+        <div class="meta"><span class="chip ok">配信中</span><span>v1.0</span><span>アクション</span><span>無料</span></div>
+        <h3>Star Blaster Infinity</h3>
+        <p class="sub">宇宙シューティング＆ガチャRPG。</p>
+        <p>タップ操作で遊べる縦スクロールのシューティングです。ガチャで武器を集めて強化しながら、ボスを倒して先へ進みます。</p>
+        <ul>
+          <li>ガチャで集める武器のカスタマイズ</li>
+          <li>個性のあるボスとのバトル</li>
+          <li>iPhoneとiPadに対応</li>
+        </ul>
+        <a class="store" href="https://apps.apple.com/jp/app/id6769824017" target="_blank" rel="noopener">App Storeで見る</a>
+      </div>
+      <div class="shots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3b/40/81/3b4081be-abc7-c65a-809f-4bdbbefe06bb/IMG_8483.jpg/460x996bb-60.jpg" alt="Star Blaster Infinityのプレイ画面" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/93/72/f4/9372f46c-ebbe-5c0d-009e-bc07daf148f3/IMG_8471.jpg/460x996bb-60.jpg" alt="Star Blaster Infinityのプレイ画面" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/dd/5c/44/dd5c44ec-4e00-4276-51e6-3ee601d828ce/IMG_8467.jpg/460x996bb-60.jpg" alt="Star Blaster Infinityのプレイ画面" loading="lazy">
+      </div>
+    </article>
+  </section>
+
+  <section class="how" id="how" aria-labelledby="how-h">
+    <h2 class="sec" id="how-h">作り方</h2>
+    <p>コードを書くのも、ストアの説明文を書くのも、審査で却下されたときに原因を調べるのも、Claudeと一緒にやっています。自分の役目は「何を作るか」を決めることと、実際に遊んで「ここが面白くない」と言うことです。</p>
+    <ul class="stack" aria-label="使っている道具">
+      <li>Claude</li><li>Expo / React Native</li><li>TypeScript</li><li>Swift（写真の切り抜き）</li><li>EAS Build</li><li>App Store Connect</li>
+    </ul>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <h2 class="sec" id="contact-h">連絡先</h2>
+    <p>アプリの感想、不具合、お仕事の相談はこちらへ。</p>
+    <p class="mail">yossy.kosei@gmail.com</p>
+  </section>
+
+  <footer>© 2026 pitan</footer>
+</div>
+</body>
+</html>
